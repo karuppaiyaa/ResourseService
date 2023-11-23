@@ -1,0 +1,85 @@
+<h1 style="color: darkviolet;"><u>Resource Storage Service</u></h1>
+<br />
+<h6 style="display: inline-block;">Total Resources:</h6>&nbsp;<span style="color: blue;">{{gridView.total}}</span>
+<br />
+<div class="row">
+    <div class="col-md-1">
+    </div>
+    <div>
+        <input type="text" style="border: 2px solid black" [(ngModel)]="searchResourceName"
+            placeholder="Search Resource..." (keyup)="getResources()">
+        &nbsp;&nbsp;
+        <input type="text" style="border: 2px solid black" [(ngModel)]="resourcePath"
+            placeholder="Upload Resource Path...">
+        &nbsp;&nbsp;
+        <input type="file" id="file_input_id" style="width: 20%;" (change)="onResourceSelected($event)" multiple
+            class="btn btn-info" />
+        &nbsp;&nbsp;
+        <button class="btn btn-info" type="button" style="background-color: lawngreen;"
+            (click)="uploadResources()">Upload</button>
+        &nbsp;&nbsp;
+        <button class="btn btn-info" type="button" (click)="bulkDownloadResources()">Bulk Download</button>
+        &nbsp;&nbsp;
+        <button class="btn btn-danger" type="button" (click)="bulkDeleteResources()">Bulk Delete</button>
+    </div>
+    <br />
+    <br />
+    <div class="col-md-10">
+        <table style="border: 2px solid black" class="table table-striped table-bordered table-sm">
+            <thead class="thead-light">
+                <tr style="background-color: gray">
+                    <th style="border:2px solid black; text-align: center;">
+                        Select All
+                        <input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()" />
+                    </th>
+                    <th style="border:2px solid black; text-align: center;">
+                        No.
+                    </th>
+                    <th style="border:2px solid black; text-align: center;">
+                        Resource Name
+                    </th>
+                    <th style="border:2px solid black; text-align: center;">
+                        Resource Path
+                    </th>
+                    <th style="border:2px solid black; text-align: center; width: 20%;" colspan="2">
+                        Created Date
+                    </th>
+                    <th style="border:2px solid black; text-align: center;" colspan="8">Actions</th>
+                </tr>
+            </thead>
+            <tbody style="background-color: aqua;">
+                <tr *ngFor="let resource of gridView.data; let i = index">
+                    <input type="hidden" name="Id" [value]="resource.id" />
+                    <td style="border:2px solid black; text-align: center;">
+                        <input type="checkbox" [checked]="selectedResourceIds.has(resource.id)"
+                            (change)="toggleResourceSelection(resource.id)">
+                    </td>
+                    <td style="border:2px solid black;">{{i + 1}}.</td>
+                    <td style="border:2px solid black;">{{resource.name}}</td>
+                    <td style="border:2px solid black; width: 150px;" class="resource-path-column">
+                        {{resource.path}}</td>
+                    <td colspan="2" style="border:2px solid black; text-align: center; width: 500px; text-wrap:nowrap;">
+                        {{resource.createdAt |
+                        date:'dd-MMM-yyyy hh:mm a'}}
+                    </td>
+                    <td colspan="8" style="border: 2px solid black; text-align: center; width: fit-content;">
+                        <div class="button-container">
+                            <button class="btn btn-info btn-sm" type="button"
+                                (click)="viewResource(resource.id)">View</button>
+                            <button class="btn btn-info" type="button"
+                                style="background-color: forestgreen; width: 100px;"
+                                (click)="getResourceSize(resource.id)">Get Size</button>
+                            <button class="btn btn-info btn-sm" type="button" style="background-color: lawngreen;"
+                                (click)="downloadResource(resource.id, resource.name)">Download</button>
+                            <button class="btn btn-danger btn-sm" type="button"
+                                (click)="deleteResource(resource.id)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="gridView.data.length == 0">
+                    <td style="border:2px solid black; text-align: center;" colspan="8">No data found...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
