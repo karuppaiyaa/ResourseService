@@ -1,0 +1,16 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    /* To evenly space the buttons */
+}
+
+.button-container button {
+    margin: 0 5px;
+    /* Adjust the margin as needed to separate the buttons */
+}
+
+.resource-path-column {
+    max-width: 400px;
+    /* Adjust the maximum width as needed */
+    overflow: scroll;
+}
